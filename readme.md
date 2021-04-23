@@ -1,5 +1,9 @@
 # Java Quickref
 
+```java
+import java.util.*;
+```
+
 ## Primitives
 
 | Data Type | Default Value | Size   | Max    |
@@ -226,7 +230,6 @@ return sb.toString();
 ## Math
 
 ```java
-//No need to import anything to call Math.blah()
 import static java.lang.Math.*; //static import
 
 abs(int a)
@@ -242,7 +245,6 @@ round(float a) //return closest int
 ## Random
 
 ```java
-import java.util.Random;
 Random rand = new Random();
 rand.nextInt(upperBound) //    0 <= output < upperBound
 rand.nextFloat()         // 0.0f <= output < 1.0f
@@ -277,7 +279,6 @@ String[] arrCopy = arr.clone(); //copies contents
 ## java.util.Arrays
 
 ```java
-import java.util.Arrays;
 object[] arr
 Arrays.toString(arr) //useful for pretty printing
 Arrays.binarySearch(arr, key) //returns index, arr must be sorted
@@ -295,10 +296,6 @@ Arrays.stream(arr)
 - Auto-resize
 
 ```java
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 ArrayList<String> names = new ArrayList<String>();
 names.add("Bob"); names.add("Alice"); names.add("John");
 
@@ -323,7 +320,6 @@ names.stream()
 ## java.util.Collections
 
 ```java
-import java.util.Collections;
 List<String> list = Arrays.asList("Bob", "Alice", "John");
 
 Collections.fill(coll, T obj) //assings value to each element
@@ -412,24 +408,77 @@ var hello = "hello".chars().mapToObj(i -> String.valueOf((char) i)).collect(Coll
 ```
 
 ```java
-reduce((a, b) -> a + b)
+reduce((a, b) -> a + b) //collapse all elements together
 toArray()
 
-import java.util.stream.Collectors;
 collect(Collectors.toList()) //or toSet()
 collect(Collectors.joining(", "))
 ```
 
 ## LinkedList
 
-## Set / HashSet
+```java
+var ll = new LinkedList<String>();
 
-## Map / HashMap
+addLast()     //aka add, appends
+addFirst(obj) //aka push, prepends
+
+peek()     //retrieves but does not remove head
+peekLast() //retrieves but does not remove tail
+
+removeFirst() //pop head
+removeLast()  //pop tail
+```
 
 ## ArrayDeque
 
 - Not thread safe
-- Usually faster than LL for stacks and queues
+- Usually faster than LinkedList for stacks and queues
+
+```java
+//Stack
+var stack = new ArrayDeque<>();
+stack.push(1)
+stack.pop()
+
+//Queue
+var queue = new ArrayDeque<>();
+queue.add(0) //add to end of queue
+queue.poll() //get element at the front of the queue
+```
+
+## Set / HashSet
+
+```java
+Set<String> h = new HashSet<String>(); //optional param initialCapacity
+Set<String> h = new HashSet<String>(strList);
+
+h.add("a"); h.add("b"); h.add("c"); h.add("a");
+h.size()
+h.contains("a")
+h.remove("a")
+h.clear() //remove all elements
+```
+
+## Map / HashMap
+
+```java
+var hm = new HashMap<String,String>(); //optional param initialCapacity
+
+hm.put(key, value)
+hm.putIfAbsent(key, value)
+hm.get(key) // returns null if DNE
+getOrDefault(key, defaultValue) // returns defaultValue if DNE
+hm.remove(key)
+hm.clear()
+hm.size()
+hm.isEmpty()
+hm.keySet();
+hm.values()
+hm.containsKey(key)
+hm.containsValue(value)
+hm.forEach((k,v)-> print(k,v));
+```
 
 ## Comments
 
