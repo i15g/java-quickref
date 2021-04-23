@@ -1,26 +1,40 @@
 # Java Quickref
 
-## Comments
-
-```java
-// Single line comment
-/* Multi
-line
-comment */
-```
-
 ## Primitives
 
-| Data Type | Default Value | Size (in bytes) 1 byte = 8 bits |
-| --------- | ------------- | ------------------------------- |
-| boolean   | FALSE         | 1 bit                           |
-| char      | “ “ (space)   | 2 byte                          |
-| byte      | 0             | 1 byte                          |
-| short     | 0             | 2 byte                          |
-| int       | 0             | 4 byte                          |
-| long      | 0             | 8 byte                          |
-| float     | 0.0f          | 4 byte                          |
-| double    | 0.0d          | 8 byte                          |
+| Data Type | Default Value | Size   | Max    |
+| --------- | ------------- | ------ | ------ |
+| boolean   | `false`       | 1 bit  |        |
+| char      | “ “ (space)   | 2 byte | 2^16-1 |
+| byte      | 0             | 1 byte | 2^07-1 |
+| short     | 0             | 2 byte | 2^15-1 |
+| int       | 0             | 4 byte | 2^31-1 |
+| long      | 0             | 8 byte | 2^63-1 |
+| float     | 0.0f          | 4 byte |        |
+| double    | 0.0d          | 8 byte |        |
+
+Recall: 1 byte = 8 bits
+
+## Type Conversions
+
+- Widening aka automatic conversion
+  - Byte > Short > Int > Long > Float > Double
+  - Automatic because no information is lost
+- Narrowing aka explicit conversion aka downcasting
+  - Requires explicit cast because information is lost
+
+```java
+//
+int i = 'a'; // Widening char to int
+char c = (char) 97; //Narrowing int to char
+
+// From String
+int i = Integer.parseInt(str);
+double d = Double.parseDouble(str);
+boolean b = Boolean.parseBoolean(str);
+// To String
+String.valueOf(i)
+```
 
 ## Operators
 
@@ -74,6 +88,9 @@ switch(day){
 ```
 
 ## Loops
+
+- **! ForEach loops should never modify the collection !**
+- Also see Loops.java
 
 ```java
 String s = "hello";
@@ -222,7 +239,7 @@ round(float a) //return closest int
 //Methods of the form opExact() throw an exception if the result overflows
 ```
 
-## Random nums
+## Random
 
 ```java
 import java.util.Random;
@@ -233,6 +250,14 @@ rand.nextDouble()        // 0.0d <= output < 1.0d
 
 Math.random()            // 0.0d <= output < 1.0d
 (int)(Math.random()*100) // 0 <= output < 100
+
+//stream of n nums
+rand.ints(n)
+rand.longs(n)
+rand.doubles(n)
+
+//select random element
+arr[rand.nextInt(arr.length)]
 ```
 
 ## Arrays
@@ -241,11 +266,11 @@ Math.random()            // 0.0d <= output < 1.0d
 
 ```java
 int[][] intMatrix = new int[10][10];
-String[] names = {"Bob", "Alice", "John"};
-String first = names[0];
-names[0] = "Robert";
-int len = names.length;
-String[] namesCopy = names.clone(); //copies contents
+String[] arr = {"Bob", "Alice", "John"};
+String first = arr[0];
+arr[0] = "Robert";
+int len = arr.length;
+String[] arrCopy = arr.clone(); //copies contents
 //See Arrays.equals(arr0,arr1) below for comparing arrays
 ```
 
@@ -260,9 +285,11 @@ Arrays.equals(arr0, arr1) // checks length and arr0[i].equals(arr1[i]) for all i
 Arrays.fill(arr, value) //assings value to each element in arr
 Arrays.mismatch(arr0, arr1) //index of first mismatch (includes DNEs) or -1 if none found
 Arrays.sort(arr) // merge sort, must implement equals() method for custom objects
+Arrays.stream(arr)
 ```
 
 ## ArrayLists
+
 - Implements List interface
 - Can't use primitives (ex: int has to be Integer)
 - Auto-resize
@@ -290,6 +317,7 @@ names.isEmpty()
 names.sort(Comparator<? super E> c) //pass in lambda
 names.toArray()
 names.removeIf(Predicate<? super E> filter) //TODO
+names.stream()
 ```
 
 ## java.util.Collections
@@ -310,6 +338,7 @@ Collections.swap(list, int i, int j)
 ```
 
 ## Lambdas
+
 ```java
 var list = Arrays.asList("Bob", "Alice", "John");
 list.sort((s0, s1) -> s0.length() - s1.length());
@@ -317,9 +346,12 @@ list.sort((s0, s1) -> {
   //multiline
   return s0.length() - s1.length();
 });
+// Method reference syntax:
+list.forEach(System.out::println);
 ```
 
 ## Comparators
+
 ```java
 left.compareTo(right)
 // -1 if left < right
@@ -329,15 +361,81 @@ left.compareTo(right)
 ```
 
 When sorting:
-* -1 means `left` should come before `right`
-* 1 means `right` should come before `left`
 
-## todo
+- -1 means `left` should come before `right`
+- 1 means `right` should come before `left`
 
-- hashsets and hashmaps and linkedlists
-- Queue and stack
-- casting
-  - string to int and such
-- get max int in list (map?)
-- sum all ints in list
-- filter list
+## Streams
+
+```java
+var list = Arrays.asList("Bob", "Alice", "John", "Bob");
+// Get unique strings and make them uppercase
+List<String> output = list.stream().distinct().map(String::toUpperCase).collect(Collectors.toList());
+
+// Get int length of longest string in list
+int longestLength = list.stream().mapToInt(s -> s.length()).max().getAsInt();
+int longestLength = list.stream().map(String::length).max((a, b) -> a.compareTo(b)).get();
+```
+
+```java
+count()
+distinct() //unique elements only
+skip(n) //discard first n elements
+limit(n) //truncate after n elements
+
+// Predicates, ex s -> s.length() > 3
+allMatch(predicate) //true is all elements match
+anyMatch(predicate)  //true if at least one element matches
+noneMatch(predicate) //true if none match
+filter(predicate) //keep elements that match pred
+
+forEach(System.out::println) //a non-interfering action to perform on the elements
+map(mapper) // ex: obj -> obj.toString()
+flatMap() //transform each element into a new stream and then combine them all
+
+// Comparators
+sorted() //natural order
+sorted(comparator)
+max(comparator), min(comparator)
+```
+
+```java
+//IntStream, LongStream, DoubleStream
+IntStream.range(int startInclusive, int endExclusive)
+mapToInt(mapper), mapToLong(mapper), mapToDouble(mapper)
+average()
+max(), min()
+sum()
+
+// String > IntStream > String stream > Recollect to string
+var hello = "hello".chars().mapToObj(i -> String.valueOf((char) i)).collect(Collectors.joining(""));
+```
+
+```java
+reduce((a, b) -> a + b)
+toArray()
+
+import java.util.stream.Collectors;
+collect(Collectors.toList()) //or toSet()
+collect(Collectors.joining(", "))
+```
+
+## LinkedList
+
+## Set / HashSet
+
+## Map / HashMap
+
+## ArrayDeque
+
+- Not thread safe
+- Usually faster than LL for stacks and queues
+
+## Comments
+
+```java
+// Single line comment
+/* Multi
+line
+comment */
+```

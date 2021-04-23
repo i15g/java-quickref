@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Loops {
   public static void main(String[] args) {
     String s = "hello";
@@ -6,10 +8,13 @@ public class Loops {
       System.out.println(s.charAt(i));
     }
 
-    System.out.println("foreach loop:");
-    for (char c : s.toCharArray()){
+    System.out.println("for-each loop:");
+    for (char c : s.toCharArray()) {
       System.out.println(c);
     }
+
+    System.out.println("forEach() loop:");
+    Arrays.asList(s.toCharArray()).forEach(c -> System.out.println(c));
 
     System.out.println("while loop:");
     int j = 0;
@@ -18,12 +23,14 @@ public class Loops {
       j++;
     }
 
-    System.out.println("dowhile loop:");
+    System.out.println("do-while loop:");
     int k = 0;
     do {
       System.out.println(s.charAt(k));
       k++;
     } while (k < s.length());
 
+    System.out.println("stream:");
+    s.chars().forEach(i -> System.out.println((char) i));
   }
 }

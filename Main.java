@@ -4,15 +4,18 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Collections;
 import java.util.Random;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import static java.lang.Math.*;
 
 public class Main {
   public static void main(String[] args) {
 
-    String[] names = {"Bob", "Alice", "John"};
-    for (var s : names){
-      s.toUpperCase();
-    }
-    System.out.println(Arrays.toString(names));
+    Random rand = new Random();
+
+    rand.ints(100).forEach(System.out::println);
+
   }
 }
