@@ -426,8 +426,8 @@ collect(Collectors.joining(", "))
 ```java
 var ll = new LinkedList<String>();
 
-addLast()     //aka add, appends
-addFirst(obj) //aka push, prepends
+addLast(), add()     // appends
+addFirst(o), push(o) // prepends
 
 peek()     //retrieves but does not remove head
 peekLast() //retrieves but does not remove tail
