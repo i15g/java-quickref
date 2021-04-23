@@ -296,10 +296,16 @@ Arrays.stream(arr)
 - Auto-resize
 
 ```java
-ArrayList<String> names = new ArrayList<String>();
-names.add("Bob"); names.add("Alice"); names.add("John");
+//Double Brace Initialisation:
+var names = new ArrayList<String>() {
+  {
+    add("Bob");
+    add("Alice");
+    add("John");
+  }
+};
 
-//Single line init:
+//quick immutable list:
 List<String> names = Arrays.asList("Bob", "Alice", "John");
 
 String first = names.get(0);
