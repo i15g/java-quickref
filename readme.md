@@ -317,10 +317,12 @@ names.size() //length
 names.addAll(names2) //combine 2 lists
 names.indexOf(Object o), lastIndexOf(Object o) //int index or -1 for DNE
 names.isEmpty()
-names.sort(Comparator<? super E> c) //pass in lambda
 names.toArray()
-names.removeIf(Predicate<? super E> filter) //TODO
 names.stream()
+
+names.sort(Comparator<? super E> c) //See Comparators, pass in lambda
+names.removeIf(s -> s.length() > 3)
+names.replaceAll(s -> s.toUpperCase())
 ```
 
 ## java.util.Collections
@@ -404,7 +406,9 @@ max(comparator), min(comparator)
 ```java
 //IntStream, LongStream, DoubleStream
 IntStream.range(int startInclusive, int endExclusive)
+IntStream.rangeClosed(int startInclusive, int endInclusive)
 mapToInt(mapper), mapToLong(mapper), mapToDouble(mapper)
+boxed() //converts IntStream to Stream<Integer>
 average()
 max(), min()
 sum()
