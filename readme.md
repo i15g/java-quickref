@@ -182,7 +182,7 @@ s.equals(s1),s.equalsIgnoreCase(s1)
 left.compareTo(right)
 
 s.toCharArray()
-s.split(regex) //returns String[], just contains s if no regex hits
+s.split("\\s+") //returns String[], just contains s if no regex hits
 
 // See StringBuffer for multithreading situations
 // StringBuilder has equivalent methods for:
@@ -379,9 +379,13 @@ List<String> output = list.stream().distinct().map(String::toUpperCase).collect(
 // Get int length of longest string in list
 int longestLength = list.stream().mapToInt(s -> s.length()).max().getAsInt();
 int longestLength = list.stream().map(String::length).max((a, b) -> a.compareTo(b)).get();
+
+// String > IntStream > String stream > Recollect to string
+var hello = "hello".chars().mapToObj(i -> String.valueOf((char) i)).collect(Collectors.joining(""));
 ```
 
 ```java
+Stream.generate(() -> "#")
 count()
 distinct() //unique elements only
 skip(n) //discard first n elements
@@ -412,9 +416,6 @@ boxed() //converts IntStream to Stream<Integer>
 average()
 max(), min()
 sum()
-
-// String > IntStream > String stream > Recollect to string
-var hello = "hello".chars().mapToObj(i -> String.valueOf((char) i)).collect(Collectors.joining(""));
 ```
 
 ```java
@@ -422,6 +423,7 @@ reduce((a, b) -> a + b) //collapse all elements together
 toArray()
 
 collect(Collectors.toList()) //or toSet()
+collect(Collectors.joining()) //join elements into single string
 collect(Collectors.joining(", "))
 ```
 
