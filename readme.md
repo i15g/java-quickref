@@ -103,8 +103,8 @@ for (int i = 0; i < s.length(); i++){
 }
 
 for (char c : s.toCharArray()){
-      System.out.println(c);
-    }
+  System.out.println(c);
+}
 
 int j = 0;
 while (j < s.length()){
@@ -157,7 +157,7 @@ enum Level {
   - `\t` tab
 
 ```java
-String s = new String(myCharArray);
+String s = new String(myCharArray); // char array back to string
 String s = "hello";
 s += " " + "there"; //concats
 
@@ -176,13 +176,14 @@ s.substring(beginIndex)
 s.substring(beginIndex, endIndexExclusive)
 
 s.replace("he", "HE")   //replaces all instaces of `he`
-s.replaceAll("\\s", "") //same as replace but takes a regex
+s.replaceAll(regex, "") //same as replace but takes a regex
+s.matches(regex)
 
 s.equals(s1),s.equalsIgnoreCase(s1)
 left.compareTo(right)
 
 s.toCharArray()
-s.split("\\s+") //returns String[], just contains s if no regex hits
+s.split(regex) //returns String[], just contains s if no regex hits
 
 // See StringBuffer for multithreading situations
 // StringBuilder has equivalent methods for:
@@ -214,18 +215,22 @@ return sb.toString();
 | [^abc] | Any char NOT in the brackets |
 | [0-9]  | Any char in range 0-9        |
 
-| Quantifier | Info                                       |
-| ---------- | ------------------------------------------ |
-| n+         | At least one of n                          |
-| n\*        | At least zero of n                         |
-| n?         | Zero or one n                              |
-| n{x}       | Sequence of n that occurs x times          |
-| n{x,y}     | Sequence of n that occurs x-y times        |
-| n{x,}      | Sequence of n that occurs at least x times |
+| Quantifier | Info                                            |
+| ---------- | ----------------------------------------------- |
+| n+         | At least one of n                               |
+| n\*        | At least zero of n                              |
+| n?         | Zero or one n                                   |
+| n{x}       | Sequence of n that occurs x times               |
+| n{x,y}     | Sequence of n that occurs x-y times (inclusive) |
+| n{x,}      | Sequence of n that occurs at least x times      |
 
-| Example | Info                         |
-| ------- | ---------------------------- |
-| \\s+    | One or more whitespace chars |
+Examples:
+
+```java
+s.replaceAll("\s+", "") //remove all whitespace
+s.replaceAll("[^a-zA-Z ]", "") //remove anything that isn't a letter or a space
+s.matches("([a-zA-Z]|\\d|\s)*"); //s only has alphabet or digits or whitespace
+```
 
 ## Math
 
